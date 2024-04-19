@@ -1,0 +1,109 @@
+[
+    {
+        "condition1": "SQL components 1: WHERE, GROUP BY, ORDER BY, LIMIT, JOIN, OR, LIKE，HAVING",
+        "condition2": "SQL components 2: EXCEPT, UNION, INTERSECT, NESTED",
+        "condition3": "Others: number of agg > 1, number of select columns > 1, number of where conditions > 1, number of group by clauses > 1",
+        "easy_class": "comp1 <= 1 and others == 0 and comp2 == 0",
+        "medium_class": "(others <= 2 and comp1 <= 1 and comp2 == 0) or (others < 2 and comp1 == 2 and comp2 == 0)",
+        "hard_class": "(others > 2 and comp1 <= 2 and comp2 == 0) or (comp1 > 2 and comp1 <= 3 and others <= 2 and comp2 == 0) or (comp1 <= 1 and others == 0 and comp2 == 1)"
+    },
+    {
+        "sql": "SELECT name FROM customers WHERE city = 'New York'",
+        "comp1": 1,
+        "comp2": 0,
+        "select_cols": 1,
+        "agg": 0,
+        "where_cond": 1,
+        "group_by": 0,
+        "others": 0,
+        "class": "easy"
+    },
+    {
+        "sql": "SELECT name, age FROM customers WHERE city = 'New York' ORDER BY age DESC",
+        "comp1": 2,
+        "comp2": 0,
+        "select_cols": 2,
+        "agg": 0,
+        "where_cond": 1,
+        "group_by": 0,
+        "others": 1,
+        "class": "medium"
+    },
+    {
+        "sql": "SELECT COUNT(*) FROM customers GROUP BY city HAVING COUNT(*) > 10",
+        "comp1": 2,
+        "comp2": 0,
+        "select_cols": 1,
+        "agg": 2,
+        "where_cond": 0,
+        "group_by": 1,
+        "others": 1,
+        "class": "medium"
+    },
+    {
+        "sql": "SELECT * FROM customers EXCEPT SELECT * FROM orders",
+        "comp1": 0,
+        "comp2": 1,
+        "select_cols": 100,
+        "agg": 0,
+        "where_cond": 0,
+        "group_by": 0,
+        "others": 1,
+        "class": "extra"
+    },
+    {
+        "sql": "SELECT COUNT(*) FROM customers",
+        "comp1": 0,
+        "comp2": 0,
+        "select_cols": 1,
+        "agg": 1,
+        "where_cond": 0,
+        "group_by": 0,
+        "others": 0,
+        "class": "easy"
+    },
+    {
+        "sql": "SELECT SUM(sales), AVG(price), COUNT(*) FROM transactions WHERE date BETWEEN '2024-01-01' AND '2024-03-31'",
+        "comp1": 1,
+        "comp2": 0,
+        "select_cols": 3,
+        "agg": 3,
+        "where_cond": 2,
+        "group_by": 0,
+        "others": 3,
+        "class": "hard"
+    },
+    {
+        "sql": "SELECT * FROM orders WHERE customer_id = 123 AND status = 'shipped' AND date > '2024-01-01'",
+        "comp1": 1,
+        "comp2": 0,
+        "select_cols": 100,
+        "agg": 0,
+        "where_cond": 3,
+        "group_by": 0,
+        "others": 2,
+        "class": "medium"
+    },
+    {
+        "sql": "SELECT city, COUNT(*), SUM(age) FROM customers GROUP BY city, age",
+        "comp1": 1,
+        "comp2": 0,
+        "select_cols": 3,
+        "agg": 2,
+        "where_cond": 0,
+        "group_by": 2,
+        "others": 3,
+        "class": "hard"
+    },
+    {
+        "sql": "SELECT * FROM x GROUP BY z ORDER BY a, b, c;",
+        "comp1": 2,
+        "comp2": 0,
+        "select_cols": 100,
+        "agg": 0,
+        "where_cond": 0,
+        "group_by": 1,
+        "others": 1,
+        "class": "medium"
+    }
+]
